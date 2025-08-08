@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/fontello.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .slider{
+            width: 600px;
+            height: 450px;
+            margin: 100px auto;
+            border: 2px solid black;
+            position: relative;
+            overflow: hidden;
+            >i{
+                position: absolute;
+                z-index: 99;
+                color: white;
+                top: 45%;
+                cursor: pointer;
+                font-size: 30px;
+                transition: .4s;
+                &:first-of-type{
+                    left: -200px;
+                }
+                &:last-of-type{
+                    right: 5%;
+                }
+            }
+        }
+        .bus{
+            transition: .4s linear;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            >img{
+                width: 600px;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        #list{
+            width: 100%;
+            height: 70px;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom: 0;
+            background-color: rgba(47, 44, 44, 0.186);
+            padding: 10px 0;
+            >img{
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid black;
+                margin: 0 5px;
+                cursor: pointer;
+                filter: grayscale(100%);
+                transition: .4s;
+                &:hover{
+                    filter: grayscale(0);
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slider">
+        <i class=" icon-left-circle" id="left"></i>
+        <i class="icon-right-circle" id="right"></i>
+        <div class="bus">
+            <img src="img/photo_2025-08-08_19-35-30.jpg" alt="">
+            <img src="img/photo_2025-08-08_19-35-39.jpg" alt="">
+            <img src="img/photo_2025-08-08_19-35-42.jpg" alt="">
+            <img src="img/photo_2025-08-08_19-35-48.jpg" alt="">
+            <img src="img/photo_2025-08-08_19-35-52.jpg" alt="">
+            <img src="img/photo_2025-08-08_19-35-57.jpg" alt="">
+            <img src="img/photo_2025-08-08_19-36-08.jpg" alt="">
+        </div>
+        <ul id="list"></ul>
+    </div>
+</body>
+<script>
+    let turn=0
+    const _bus=document.querySelector('.bus')
+    let _img=document.querySelectorAll('img')
+    const _left=document.querySelector('#left')
+    const _right=document.querySelector('#right')
+    const _list=document.querySelector('#list')
+    //auto slider
+    setInterval(() => {
+        _autoslider()
+    }, 4000);
+    //auto slider
+    // clone img to last staff
+    let lastimg=document.createElement('img')
+    lastimg.src=_img[0].src
+    _bus.appendChild(lastimg)
+    // clone img to last staff
+    
+    // width to bus//
+    _img=document.querySelectorAll('img')
+    _bus.style.width=(_img.length*600)+'px'
+    // width to bus//
+
+
+    _right.addEventListener('click' , _autoslider)
+
+    function _autoslider(){
+        if(turn<_img.length-1){
+            turn++
+            _bus.style.left=-(turn*600)+'px'
+            if(turn==_img.length-1){
+                setTimeout(() => {
+                    _bus.style.transition='0s'
+                    turn=0
+                    _bus.style.left='0px'
+                    setTimeout(() => {
+                        _bus.style.transition='0.4s'
+                    }, 100);
+                }, 400);
+            }
+        }
+        if(turn>0){
+            _left.style.left='5%'
+        }
+    }
+    
+    _left.addEventListener('click' ,()=>{
+        if(turn>0){
+            turn--
+            _bus.style.left=-(turn*600)+'px'
+            if(turn==0){
+
+                _left.style.left='-200px'
+            }
+        }
+    })
+
+
+    ///////////thumbnail///////////
+    for(let i=0; i<_img.length-1; i++){
+        let x=document.createElement('img')
+        x.src=_img[i].src
+        _list.appendChild(x)
+    }
+
+
+
+    /////////thumbnail/////
+    const img=document.querySelectorAll('#list>img')
+    img.forEach((val,i)=>{
+        val.addEventListener('click',()=>{
+            turn=i-1
+            _autoslider()
+            if(i==0){
+                 _left.style.left='-200px'
+            }
+        })
+    })
+</script>
+   
+</html>

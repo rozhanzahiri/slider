@@ -1,5 +1,5 @@
 # slider
-- [Demo Project](https://rozhanzahiri.github.io/To-do-list/)
+- [Demo Project](https://rozhanzahiri.github.io/slider/)
 
 - Developed by Rozhan Zahiri
 
